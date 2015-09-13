@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>VOC: A transpiler that converts Python bytecode into Java bytecode. Part of the BeeWare suite.</title>
+
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cutive">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <style type="text/css">
+      h1 {
+        font-family: 'Cutive', serif;
+      }
+      header h1 {
+        font-family: 'Cutive', serif;
+        font-size: 64px;
+        padding-top: 12px;
+        text-align: center;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="static/images/voc-144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="static/images/voc-114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="static/images/voc-72.png">
+    <link rel="apple-touch-icon-precomposed" href="static/images/voc-57.png">
+    <link rel="shortcut icon" href="static/images/voc-32.png">
+
+    <!-- Google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-2943925-16', 'pybee.org');
+      ga('send', 'pageview');
+
+    </script>
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <img src="static/images/voc-270.png" alt="bugjar logo">
+        <h1>voc</h1>
+        <p>A transpiler that converts Python bytecode into Java bytecode. Part of the <a href="http://pybee.org">BeeWare suite</a>.</p>
+
+        <p class="view"><a href="https://github.com/pybee/voc">View the Project on GitHub <small>pybee/voc</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/pybee/voc/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/pybee/voc/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/pybee/voc">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="voc" class="anchor" href="#voc"><span class="octicon octicon-link"></span></a>voc</h1>
+
+<p><strong>Part of the <a href="http://pybee.org"><img src="static/images/brutus-16.png" alt="BeeWare logo">BeeWare suite</a>.</strong></p>
+
+<p>A transpiler that converts Python bytecode into Java bytecode.</p>
+
+<p>This is experimental code. If it breaks, you get to keep all the shiny pieces.</p>
+
+<p>What it does:</p>
+
+<ul>
+  <li>Provides an API to let you programmatically create Java class files.</li>
+
+  <li>Compiles a Python source file into a Java class file in a nominated
+    package. Supports the conversion of:
+    <ul>
+
+      <li>Class definition and construction</li>
+
+      <li>Class instantiation</li>
+
+      <li>Method definition and invocation</li>
+
+      <li>Some mathematical operations</li>
+
+      <li>Exception handling</li>
+
+      <li>for/while/if constructs</li>
+
+      <li>Identification of mainline entry points</li>
+
+      <li>Static initialization of modules.</li>
+    </ul>
+  </li>
+</ul>
+<p>It <em>doesn't</em> currently support:
+<ul>
+  <li>Keyword arguments</li>
+
+  <li>List comprehensions</li>
+
+  <li>Generators</li>
+
+  <li>Import statements</li>
+
+  <li><code>exec()</code>/<code>eval()</code></li>
+</ul>
+
+<p>These things should all be <em>possible</em> - it's just a matter of time
+and development effort.</p>
+
+<h2>
+<a name="quickstart" class="anchor" href="#quickstart"><span class="octicon octicon-link"></span></a>Quickstart</h2>
+
+<p>Install `voc`, then run the example script:</p>
+
+<pre><code>$ pip install voc
+$ python -m voc tests/example.py org.pyee
+Creating class 'example'...
+Writing example.class...
+Done.
+</code></pre>
+
+<p>This will produce an <code>example.class</code>, in the <code>org.pybee</code> namespace, that you can
+run on any Java 1.7+ VM.</p>
+
+<p>Next step - you need to compile the Python support libraries:</p>
+
+<pre><code>$ make</code></pre>
+
+<p>This will compile <code>python.jar</code>. You will need to make sure that the <code>python.jar</code>
+support file is in your classpath:</p>
+
+<pre><code>$ java -XX:-UseSplitVerifier -classpath python.jar:. example
+Hello, World
+</code></pre>
+
+<p>The <code>-CC:-UsesplitVerifier</code> argument is necessary to turn off stack map
+verification in Java 7. This could be addressed by computing stack maps
+for generated code.</p>
+
+
+
+<h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>Documentation for VOC can be found on <a href="http://voc.readthedocs.org">Read The Docs</a>.</p>
+
+<h2>
+<a name="community" class="anchor" href="#community"><span class="octicon octicon-link"></span></a>Community</h2>
+
+<p>VOC is part of the <a href="http://pybee.org">BeeWare suite</a>. You can talk to the community through:</p>
+<ul>
+<li><p><a href="https://twitter.com/pybeeware">Twitter</a></p></li>
+<li><p>The <a href="https://groups.google.com/forum/#!forum/beeware-users">BeeWare Users Mailing list</a>, for questions about how to use the BeeWare suite.</p></li>
+<li><p>The <a href="https://groups.google.com/forum/#!forum/beeware-developers">BeeWare Developers Mailing list</a>, for discussing the development of new features in the BeeWare suite, and ideas for new tools for the suite.</p></li>
+</ul>
+
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>If you experience problems with VOC, you can <a href="https://github.com/pybee/voc/issues">log them on GitHub</a>. If you want to contribute code, please <a href="https://github.com/freakboy3742/voc">fork the code</a> and <a href="https://github.com/pybee/voc/pulls">submit a pull request</a>.</p>
+
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/pybee">pybee</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+
+  </body>
+</html>
